@@ -1,0 +1,82 @@
+<header style="z-index: 100; position: absolute; width: 100%">
+  <nav class="navbar navbar-expand-lg fixed-top" style="z-index: 2 !important" id="mainNav">
+    <div class="header__container">
+      <a id="top-nav" class="
+              navbar-brand
+              js-scroll-trigger
+              font-weight-bold
+              text-white-50
+            " href="/">
+        <div class="logo"><img src="/images/logo.png" /></div>
+      </a>
+      <div class="collapse navbar-collapse" id="navbarResponsive">
+        <ul class="
+                navbar-nav
+                ml-auto
+                my-2 my-lg-0
+                d-flex
+                justify-content-center
+                align-items-center
+                text-center
+              ">
+          <li class="nav-item">
+            <form class="d-flex" action="/product/search">
+              <input name="name" class="form-control me-2 search-input" type="search" placeholder="Search..."
+                aria-label="Search" />
+            </form>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link text-dark my-nav-link" href="/product/search?category=Men">MEN</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link text-dark my-nav-link" href="/product/search?category=Women">WOMEN</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link text-dark my-nav-link" href="/product/search?category=Kids">KIDS</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link text-dark my-nav-link" href="/product/search?category=Sports">SPORTS</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link text-dark my-nav-link" href="/aboutus">ABOUT US</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link text-dark my-nav-link" href="/cart"><i class="fas fa-shopping-cart fa-lg m-2 btn"
+                style="color: #000"></i></a>
+          </li>
+
+          <% if(!isLogin) { %>
+            <li class="nav-item">
+              <a href="/user/login" class="nav-link btn btn-my-style text-white" style="font-weight: bold;">Login</a>
+            </li>
+            <% } else { %>
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button"
+                  data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  <i class="fas fa-user fa-lg mr-1" style="color: #ffffff"></i>
+                  <%= user.username %>
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                  <a class="dropdown-item" href="/user/profile">Profile</a>
+                  <a class="dropdown-item" href="/order/user">List orders</a>
+                  <% if(user.isAdmin) { %>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="/user">All users</a>
+                    <a class="dropdown-item" href="/product">All products</a>
+                    <a class="dropdown-item" href="/order">All orders</a>
+                    <% } %>
+                      <div class="dropdown-divider"></div>
+                      <a class="dropdown-item logout-button" href="/user/logout">Logout</a>
+                </div>
+              </li>
+              <% } %>
+        </ul>
+      </div>
+      <button id="btn-nav" class="navbar-toggler navbar-toggler-left collapsed" type="button" data-toggle="collapse"
+        data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false"
+        aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+    </div>
+  </nav>
+</header>
