@@ -2,10 +2,10 @@ var express = require('express');
 const Order = require('../models/orderModel.js');
 const Product = require('../models/productModel.js');
 const User = require('../models/userModel.js');
-
+const { isLogin } = require('../utils.js');
 const cartRouter = express.Router();
 
-cartRouter.get('/', async (req, res) => {
+cartRouter.get('/', isLogin, async (req, res) => {
   const isLogin = req.session.user ? true : false;
   const user = req.session.user ? req.session.user : {};
 
@@ -64,6 +64,7 @@ cartRouter.get('/add/:id', async (req, res) => {
   // res.json({ abc: "ahih" })
 });
 
+// Tăng giảm số lượng trong giỏ hàng
 cartRouter.get('/sub/:id', async (req, res) => {
   const id = req.params.id;
   const product = await Product.findById(id);
@@ -85,8 +86,7 @@ cartRouter.get('/sub/:id', async (req, res) => {
   for (let i = 0; i < cartItems.length; i++) {
     if (cartItems[i].productId == product._id && cartItems[i].size == size) {
       cartItems[i].quantity -= 1;
-      cartItems[i].totalItem -= product.price;
-      // req.session.cart.total = calTotal(req.session.cart.cartItems);
+      cartItems[i].totalItem -= product.price;   // giảm tổng giá
       if (cartItems[i].quantity == 0) {
         res.redirect(`/cart/remove/${id}?size=${size}`);
         return;

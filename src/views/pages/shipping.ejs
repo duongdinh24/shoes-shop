@@ -32,31 +32,34 @@
             <div class="cart" style="border: 2px solid #0c517d;">
                 <div class="cart-top">
                     <div class="cart-experience w-100">
-                        <h4 class="text-center">SHIPPING INFO</h4>
+                        <h4 class="text-center">Thông tin đặt hàng</h4>
                     </div>
                     <div class="clear"> </div>
                 </div>
                 <div class="cart-bottom">
                     <form class="w-75" style="margin: auto;" action="/order/checkout" method="POST">
-                    <!-- <form class="w-75" style="margin: auto;" action="/pay" method="GET"> -->
+                        <!-- <form class="w-75" style="margin: auto;" action="/pay" method="GET"> -->
                         <div class="dis-total w-100">
                             <div class="text-left d-flex flex-column">
-                                <label class="label-shipping" for="fullname">Full name:</label>
+                                <label class="label-shipping" for="fullname">Họ tên:</label>
                                 <input class="input-shipping" name="fullname" value="<%= user.fullname %>" required>
 
                                 <label class="label-shipping" for="email">Email:</label>
-                                <input class="input-shipping" type="email" name="email" value="<%= user.email %>" required>
+                                <input class="input-shipping" type="email" name="email" value="<%= user.email %>"
+                                    required>
 
-                                <label class="label-shipping" for="phoneNumber">Phone number:</label>
-                                <input class="input-shipping" name="phoneNumber" value="<%= user.phoneNumber %>" required>
+                                <label class="label-shipping" for="phoneNumber">Số điện thoại:</label>
+                                <input class="input-shipping" name="phoneNumber" value="<%= user.phoneNumber %>"
+                                    required>
 
                                 <label class="label-shipping" for="address">Address:</label>
                                 <input class="input-shipping" name="address" value="<%= user.address %>" required>
 
-                                <label class="label-shipping" for="">Payment method:</label>
+                                <label class="label-shipping" for="">Phương thức thanh toán:</label>
                                 <select name="paymentMethod" class="input-shipping">
+                                    <option value="cash">Ship cod</option>
                                     <option value="paypal" selected>Paypal</option>
-                                    <option value="cash">Cash on delivery</option>
+                                    <option value="vnpay" selected>VN Pay</option>
                                 </select>
                             </div>
                             <div class="tot-btn">

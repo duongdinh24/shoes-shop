@@ -88,28 +88,30 @@
         <h2 data-aos="fade-up" class="text-center text-dark">LATEST RELEASE</h2>
         <div class="w-100 d-flex flex-wrap justify-content-around mt-3 mr-5 ml-5">
           <% for(let i=0; i<latestRelease.length; i++) { %>
-            <div class="product-item" data-aos="zoom-in">
-              <a href="/product/detail/<%= latestRelease[i]._id %>">
-                <div class="img-product" style="background-image: url('<%= latestRelease[i].image %>')"></div>
-                <div class="p-2">
-                  <p class="name-product text-truncate">
-                    <%= latestRelease[i].name %>
-                  </p>
-                  <a href="/product/search?brand=<%= latestRelease[i].brand %>" class="name-brand text-truncate">
-                    <%= latestRelease[i].brand %>
-                  </a>
-                  <div class="d-flex justify-content-between align-items-center">
-                    <div>
-                      <p class="old-price-product">$<%= latestRelease[i].oldPrice %>
-                      </p>
-                      <p class="new-price-product">$<%= latestRelease[i].price %>
-                      </p>
+            <div class="product-item__container">
+              <div class="product-item" data-aos="zoom-in">
+                <a href="/product/detail/<%= latestRelease[i]._id %>">
+                  <div class="img-product" style="background-image: url('<%= latestRelease[i].image %>')"></div>
+                  <div class="p-2">
+                    <p class="name-product text-truncate">
+                      <%= latestRelease[i].name %>
+                    </p>
+                    <a href="/product/search?brand=<%= latestRelease[i].brand %>" class="name-brand text-truncate">
+                      <%= latestRelease[i].brand %>
+                    </a>
+                    <div class="d-flex justify-content-between align-items-center">
+                      <div>
+                        <p class="old-price-product">$<%= latestRelease[i].oldPrice %>
+                        </p>
+                        <p class="new-price-product">$<%= latestRelease[i].price %>
+                        </p>
+                      </div>
+                      <a class="order-product" href="/cart/add/<%= latestRelease[i]._id %>""><i class=" fas
+                        fa-shopping-cart fa-lg m-2 btn" style="color: #fcb045"></i></a>
                     </div>
-                    <a class="order-product" href="/cart/add/<%= latestRelease[i]._id %>""><i class=" fas
-                      fa-shopping-cart fa-lg m-2 btn" style="color: #fcb045"></i></a>
                   </div>
-                </div>
-              </a>
+                </a>
+              </div>
             </div>
             <% } %>
         </div>
@@ -232,7 +234,7 @@
           </a>
           <a data-aos="zoom-in" href="/product/search?brand=Nike">
             <div>
-              <img class="img-brand" src="https://giaydatino.vn/wp-content/uploads/2019/05/Logo-Nike-Swoosh-1978.jpg">
+              <img class="img-brand" src="https://amis.misa.vn/wp-content/uploads/2022/10/y-nghia-logo-cua-nike-1.jpg">
             </div>
           </a>
           <a data-aos="zoom-in" href="/product/search?brand=Converse">

@@ -1,9 +1,6 @@
 const express = require('express');
-const paypal = require('paypal-rest-sdk');
 const nodemailer = require('nodemailer');
 const Order = require('../models/orderModel.js');
-const Product = require('../models/productModel.js');
-const User = require('../models/userModel.js');
 var { isAdmin, isLogin, mailTemplate } = require('../utils.js');
 
 const orderRouter = express.Router();
