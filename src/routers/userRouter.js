@@ -2,6 +2,7 @@ var express = require('express');
 var User = require('../models/userModel.js');
 var { isAdmin, isLogin } = require('../utils.js');
 var data = require('../data.js');
+var bcrypt = require('bcryptjs');
 
 const userRouter = express.Router();
 
@@ -53,7 +54,7 @@ userRouter.get('/register', async (req, res) => {
 userRouter.post('/login', async (req, res) => {
   const user = await User.findOne({ username: req.body.username });
   if (user) {
-    if (user.password === req.body.password) {
+    if (bcrypt.compareSync(req.body.password, user.password)) {
       req.session.user = {
         _id: user._id,
         username: user.username,
@@ -83,15 +84,17 @@ userRouter.post('/register', async (req, res) => {
     res.redirect('/user/register');
     return;
   }
+  const salt = bcrypt.genSaltSync(10);
+  const passwordHash = bcrypt.hashSync(req.body.password, salt);
   const user = new User({
     username: req.body.username,
-    password: req.body.password,
+    password: passwordHash,
     fullname: req.body.fullname,
     email: req.body.email,
     phoneNumber: req.body.phoneNumber,
     address: req.body.address,
   });
-  // await User.remove({});
+
   const createUser = await user.save();
   req.session.user = {
     _id: user._id,
@@ -131,6 +134,7 @@ userRouter.post('/update', isLogin, async (req, res) => {
     res.redirect('/user/profile');
     return;
   }
+  ;
   const {
     username,
     fullname,
@@ -148,14 +152,15 @@ userRouter.post('/update', isLogin, async (req, res) => {
     res.redirect('/user/profile');
     return;
   }
-
+  const isCorrectPassword = bcrypt.compareSync(currentPassword, user.password);
   if (currentPassword && newPassword && newPasswordRepeat) {
-    if (newPassword != newPasswordRepeat || currentPassword != user.password) {
+    if (newPassword != newPasswordRepeat || !isCorrectPassword) {
       req.session.error = { profile: 'Update password fail.' };
       res.redirect('/user/profile');
       return;
     } else {
-      user.password = newPassword;
+      const salt = bcrypt.genSaltSync(10);
+      user.password = bcrypt.hashSync(newPassword, salt);
     }
   }
   user.username = username;

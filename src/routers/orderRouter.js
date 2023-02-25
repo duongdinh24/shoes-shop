@@ -125,10 +125,12 @@ orderRouter.get('/user', isLogin, async (req, res) => {
   const page = Number(req.query.pageNumber) || 1;
   const user = req.session.user;
   const count = await Order.countDocuments({ userId: user._id });
+
   const ordersOfUser = await Order.find({ userId: user._id })
     .skip(pageSize * (page - 1))
     .sort({ createdAt: -1 })
     .limit(pageSize);
+  console.log('TO DEBUG--------------------------------------------userId', user._id);
 
   res.render('orderListUser', {
     isLogin: true,
