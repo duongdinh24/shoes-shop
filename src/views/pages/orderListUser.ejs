@@ -53,60 +53,63 @@
                     <td class="align-middle">
                       $<%= ordersOfUser[i].total %>
                     </td>
-                    <% let color = "text-danger"; %> 
-                    <% if(ordersOfUser[i].paymentMethod=="paypal") color="text-primary" %> 
-                    <td class="align-middle <%= color %> " style="text-transform: capitalize;">
-                      <%= ordersOfUser[i].paymentMethod %>
-                    </td>
-                    <td class="align-middle">
-                      <% if(ordersOfUser[i].paymentMethod=="paypal" ) { %>
-                        <% if(ordersOfUser[i].isPaid) { %>
-                          <% let datePaid=ordersOfUser[i].paidAt %>
-                            <% datePaid=`${datePaid.getDate()}-${datePaid.getMonth()+1}-${datePaid.getFullYear()}` %>
-                              <%= datePaid %>
-                                <% } else { %>
-                                  <a href="/pay/<%= ordersOfUser[i]._id %>"><button class="btn btn-primary">Pay
-                                      now</button></a>
-                                  <% } %>
-                                    <% } else if(ordersOfUser[i].paidAt) {%>
-                                      <% let datePaid=ordersOfUser[i].paidAt %>
-                                        <% datePaid=`${datePaid.getDate()}-${datePaid.getMonth()+1}-${datePaid.getFullYear()}`
-                                          %>
-                                          <%= datePaid %>
-                                            <% } %>
-                    </td>
-                    <% if(!ordersOfUser[i].isConfirm) { %>
-                      <td class="align-middle">
-                        <button class="btn btn-outline-danger" disabled>Not yet</button>
-                      </td>
-                      <td></td>
-                      <% } else { %>
-                        <td class="align-middle">
-                          <button class="btn btn-outline-primary" disabled>Confirmed</button>
+                    <% let color="text-danger" ; %>
+                      <% if(ordersOfUser[i].paymentMethod=="paypal" ) color="text-primary" %>
+                        <td class="align-middle <%= color %> " style="text-transform: capitalize;">
+                          <%= ordersOfUser[i].paymentMethod %>
                         </td>
                         <td class="align-middle">
-                          <% if(ordersOfUser[i].isDelivered) { %>
-                            <% let dateDelivered=ordersOfUser[i].deliveredAt %>
-                              <% dateDelivered=`${dateDelivered.getDate()}-${dateDelivered.getMonth()+1}-${dateDelivered.getFullYear()}`
-                                %>
-                                <%= dateDelivered %>
-                                  <% } else { %>
-                                    <a onclick="return confirmLink('<%= ordersOfUser[i]._id %>', 'Did you get your order')"
-                                      href="/order/delivered/<%= ordersOfUser[i]._id %>"><button
-                                        class="btn btn-primary">Delivered</button></a>
-                                    <% } %>
+                          <% if(ordersOfUser[i].paymentMethod=="paypal" ) { %>
+                            <% if(ordersOfUser[i].isPaid) { %>
+                              <% let datePaid=ordersOfUser[i].paidAt %>
+                                <% datePaid=`${datePaid.getDate()}-${datePaid.getMonth()+1}-${datePaid.getFullYear()}`
+                                  %>
+                                  <%= datePaid %>
+                                    <% } else { %>
+                                      <a href="/pay/paypal/<%= ordersOfUser[i]._id %>"><button
+                                          class="btn btn-primary">Pay
+                                          now</button></a>
+                                      <% } %>
+                                        <% } else if(ordersOfUser[i].paidAt) {%>
+                                          <% let datePaid=ordersOfUser[i].paidAt %>
+                                            <% datePaid=`${datePaid.getDate()}-${datePaid.getMonth()+1}-${datePaid.getFullYear()}`
+                                              %>
+                                              <%= datePaid %>
+                                                <% } %>
                         </td>
-                        <% } %>
-
+                        <% if(!ordersOfUser[i].isConfirm) { %>
                           <td class="align-middle">
-                            <a href="/order/detail/<%= ordersOfUser[i]._id %>" class="btn btn-outline-info">Detail</a>
-                            <% if(!ordersOfUser[i].isConfirm) { %>
-                              <a onclick="return confirmDeleteItem('<%= ordersOfUser[i]._id %>')"
-                                href="/order/delete/<%= ordersOfUser[i]._id %>?redirect=/order/user"
-                                class="btn btn-outline-danger">Delete</a>
-                              <% } %>
-
+                            <button class="btn btn-outline-danger" disabled>Not yet</button>
                           </td>
+                          <td></td>
+                          <% } else { %>
+                            <td class="align-middle">
+                              <button class="btn btn-outline-primary" disabled>Confirmed</button>
+                            </td>
+                            <td class="align-middle">
+                              <% if(ordersOfUser[i].isDelivered) { %>
+                                <% let dateDelivered=ordersOfUser[i].deliveredAt %>
+                                  <% dateDelivered=`${dateDelivered.getDate()}-${dateDelivered.getMonth()+1}-${dateDelivered.getFullYear()}`
+                                    %>
+                                    <%= dateDelivered %>
+                                      <% } else { %>
+                                        <a onclick="return confirmLink('<%= ordersOfUser[i]._id %>', 'Did you get your order')"
+                                          href="/order/delivered/<%= ordersOfUser[i]._id %>"><button
+                                            class="btn btn-primary">Delivered</button></a>
+                                        <% } %>
+                            </td>
+                            <% } %>
+
+                              <td class="align-middle">
+                                <a href="/order/detail/<%= ordersOfUser[i]._id %>"
+                                  class="btn btn-outline-info">Detail</a>
+                                <% if(!ordersOfUser[i].isConfirm) { %>
+                                  <a onclick="return confirmDeleteItem('<%= ordersOfUser[i]._id %>')"
+                                    href="/order/delete/<%= ordersOfUser[i]._id %>?redirect=/order/user"
+                                    class="btn btn-outline-danger">Delete</a>
+                                  <% } %>
+
+                              </td>
                   </tr>
                   <% } %>
 

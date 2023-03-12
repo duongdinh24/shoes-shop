@@ -2,24 +2,18 @@ const express = require('express');
 const session = require('express-session');
 const dotenv = require('dotenv');
 const mongoose = require('mongoose');
-const paypal = require('paypal-rest-sdk');
 const path = require('path');
 const morgan = require('morgan');
-const userRouter = require('./routers/userRouter');
-const productRouter = require('./routers/productRouter');
-const orderRouter = require('./routers/orderRouter');
-const cartRouter = require('./routers/cartRouter');
+const userRouter = require('./routes/userRouter');
+const productRouter = require('./routes/productRouter');
+const orderRouter = require('./routes/orderRouter');
 const Product = require('./models/productModel');
 const Order = require('./models/orderModel');
 const fileUpload = require('express-fileupload');
+const route = require('./routes');
 
 dotenv.config();
 
-paypal.configure({
-  mode: 'sandbox', //sandbox or live
-  client_id: process.env.PAYPAL_CLIENT_ID,
-  client_secret: process.env.PAYPAL_SECRET_ID,
-});
 
 var app = express();
 
@@ -64,55 +58,15 @@ mongoose.connect(
   .catch(err => console.log("FAIL")
   )
 
+route(app);
+
 app.use('/user', userRouter);
 app.use('/product', productRouter);
 app.use('/order', orderRouter);
-app.use('/cart', cartRouter);
 app.get('/aboutus', async (req, res) => {
   const isLogin = req.session.user ? true : false;
   const user = req.session.user ? req.session.user : {};
   res.render('aboutUs', { isLogin, user });
-});
-
-app.get('/pay/:id', async (req, res) => {
-  const id = req.params.id;
-  const order = await Order.findById(id);
-  if (!order) {
-    res.redirect('/order/user');
-    return;
-  }
-
-  const create_payment_json = {
-    intent: 'sale',
-    payer: {
-      payment_method: 'paypal',
-    },
-    redirect_urls: {
-      return_url: `http://localhost:3000/order/success/${id}`,
-      cancel_url: 'http://localhost:3000/order/user',
-    },
-    transactions: [
-      {
-        amount: {
-          currency: 'USD',
-          total: `${order.total}`,
-        },
-        description: 'DIO SHOES',
-      },
-    ],
-  };
-
-  paypal.payment.create(create_payment_json, function (error, payment) {
-    if (error) {
-      throw error;
-    } else {
-      for (let i = 0; i < payment.links.length; i++) {
-        if (payment.links[i].rel === 'approval_url') {
-          res.redirect(payment.links[i].href);
-        }
-      }
-    }
-  });
 });
 
 app.get('/', async (req, res) => {
